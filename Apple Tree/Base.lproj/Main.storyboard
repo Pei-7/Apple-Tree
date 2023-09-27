@@ -36,24 +36,24 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="39" translatesAutoresizingMaskIntoConstraints="NO" id="eV2-vi-hAd">
                                 <rect key="frame" x="139.66666666666666" y="371" width="114" height="110.33333333333331"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A53-MX-Tlj">
-                                        <rect key="frame" x="0.0" y="0.0" width="114" height="35.666666666666664"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Play Game">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="InP-iY-zYX"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I08-TU-oaK">
-                                        <rect key="frame" x="0.0" y="74.666666666666686" width="114" height="35.666666666666657"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114" height="35.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Vocabulary">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <segue destination="hVi-m6-2Aa" kind="show" id="nzq-7c-W4B"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A53-MX-Tlj">
+                                        <rect key="frame" x="0.0" y="74.666666666666686" width="114" height="35.666666666666657"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Play Game">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <segue destination="BYZ-38-t0r" kind="show" id="InP-iY-zYX"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -238,6 +238,8 @@
                         <outlet property="sentenceEngLabel" destination="8f0-xN-HdS" id="bDR-lG-aKN"/>
                         <outlet property="wordChiLabel" destination="Ijf-pD-2v5" id="HrZ-as-x02"/>
                         <outlet property="wordEngLabel" destination="Mbx-Eb-deR" id="DkB-RQ-ED2"/>
+                        <outletCollection property="switchPageButtons" destination="wtl-4d-NbE" collectionClass="NSMutableArray" id="lXq-GK-x9w"/>
+                        <outletCollection property="switchPageButtons" destination="fs8-Mc-JKK" collectionClass="NSMutableArray" id="Y3j-Cm-SmC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aig-hG-oDN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -296,6 +298,7 @@
                                 <connections>
                                     <outlet property="starButton" destination="fmc-gn-6Hk" id="T52-kM-ZKL"/>
                                     <outlet property="vocabLabel" destination="2yF-mf-k7A" id="HCE-Zu-8zc"/>
+                                    <segue destination="A00-U7-68G" kind="show" destinationCreationSelector="showSavedVocab:" id="tY1-aW-5iQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -317,6 +320,9 @@
             <point key="canvasLocation" x="1914" y="149"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tY1-aW-5iQ"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.left.fill" catalog="system" width="128" height="104"/>
         <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>

@@ -10,8 +10,9 @@ import AVFoundation
 
 class DetailViewController: UIViewController {
     
-    var alphabetIndex: Int!
-    var vocabIndex: Int!
+    var alphabetIndex: Int?
+    var vocabIndex: Int?
+    var savedIndex: Int?
     
     @IBOutlet var wordEngLabel: UILabel!
     
@@ -24,20 +25,32 @@ class DetailViewController: UIViewController {
     var alphabetArray: [String] = []
     var selectedAlphabet: [String] = []
     var vocabularyArray: [Vocabulary] = []
+    var savedList: [Vocabulary]?
 
     var speaker = AVSpeechSynthesizer()
     
+    @IBOutlet var switchPageButtons: [UIButton]!
     
-    fileprivate func updateVocab() {
-        wordEngLabel.text = vocabularyArray[vocabIndex].wordEng
-        wordChiLabel.text = vocabularyArray[vocabIndex].wordChi
-        sentenceEngLabel.text = vocabularyArray[vocabIndex].sentenceEng
-        sentenceChiLabel.text = vocabularyArray[vocabIndex].sentenceChi
+    fileprivate func updateVocab(array: [Vocabulary],index: Int) {
+//        if let vocabIndex {
+//            wordEngLabel.text = vocabularyArray[vocabIndex].wordEng
+//            wordChiLabel.text = vocabularyArray[vocabIndex].wordChi
+//            sentenceEngLabel.text = vocabularyArray[vocabIndex].sentenceEng
+//            sentenceChiLabel.text = vocabularyArray[vocabIndex].sentenceChi
+//        }
+        
+        wordEngLabel.text = array[index].wordEng
+        wordChiLabel.text = array[index].wordChi
+        sentenceEngLabel.text = array[index].sentenceEng
+        sentenceChiLabel.text = array[index].sentenceChi
+        
     }
     
     fileprivate func updateAlphabet() {
-        selectedAlphabet = [alphabetArray[alphabetIndex]]
         
+        if let alphabetIndex {
+            selectedAlphabet = [alphabetArray[alphabetIndex]]
+        }
         let vocab = Vocabulary()
         vocabularyArray = vocab.getData(alphabetArray: selectedAlphabet)
     }
@@ -50,8 +63,23 @@ class DetailViewController: UIViewController {
         let alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         alphabetArray = alphabetString.map{String($0)}
         
-        updateAlphabet()
-        updateVocab()
+        let vocab = Vocabulary()
+        savedList = vocab.loadSavedList()
+
+        
+        if let vocabIndex {
+            updateAlphabet()
+            updateVocab(array: vocabularyArray, index: vocabIndex)
+            for button in switchPageButtons {
+                button.isHidden = false
+            }
+        } else if let savedList, let savedIndex {
+            updateVocab(array: savedList, index: savedIndex)
+            for button in switchPageButtons {
+                button.isHidden = true
+            }
+        }
+        
     }
     
     
@@ -67,35 +95,35 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func switchVocabulary(_ sender: UIButton) {
-        switch sender.tag {
-        case 0:
-            if vocabIndex != 0 {
-                vocabIndex -= 1
-                updateVocab()
-            } else {
-                alphabetIndex -= 1
-                updateAlphabet()
-                
-                vocabIndex = vocabularyArray.count-1
-                updateVocab()
-            }
-            
-        case 1:
-            if vocabIndex != vocabularyArray.count - 1 {
-                vocabIndex += 1
-                updateVocab()
-            } else {
-                alphabetIndex += 1
-                updateAlphabet()
-                
-                vocabIndex = 0
-                updateVocab()
-            }
-            
-        default:
-            break
-        }
         
+            switch sender.tag {
+            case 0:
+                if vocabIndex != 0 {
+                    vocabIndex! -= 1
+                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                } else {
+                    alphabetIndex! -= 1
+                    updateAlphabet()
+                    vocabIndex = vocabularyArray.count-1
+                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                }
+                
+            case 1:
+                if vocabIndex != vocabularyArray.count - 1 {
+                    vocabIndex! += 1
+                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                } else {
+                    alphabetIndex! += 1
+                    updateAlphabet()
+
+                    vocabIndex = 0
+                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                }
+                
+            default:
+                break
+            }
+            
         
         
     }
