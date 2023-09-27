@@ -31,14 +31,9 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var switchPageButtons: [UIButton]!
     
+    
     fileprivate func updateVocab(array: [Vocabulary],index: Int) {
-//        if let vocabIndex {
-//            wordEngLabel.text = vocabularyArray[vocabIndex].wordEng
-//            wordChiLabel.text = vocabularyArray[vocabIndex].wordChi
-//            sentenceEngLabel.text = vocabularyArray[vocabIndex].sentenceEng
-//            sentenceChiLabel.text = vocabularyArray[vocabIndex].sentenceChi
-//        }
-        
+
         wordEngLabel.text = array[index].wordEng
         wordChiLabel.text = array[index].wordChi
         sentenceEngLabel.text = array[index].sentenceEng
@@ -128,8 +123,8 @@ class DetailViewController: UIViewController {
         
     }
     
-    
-    
+  
+  
     /*
     // MARK: - Navigation
 

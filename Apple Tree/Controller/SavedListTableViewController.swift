@@ -22,6 +22,9 @@ class SavedListTableViewController: UITableViewController {
             }
             return false
         })
+        if let savedList {
+            vocab.saveList(savedList)
+        }
         
         
         // Uncomment the following line to preserve selection between presentations
