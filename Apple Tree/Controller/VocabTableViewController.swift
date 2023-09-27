@@ -17,16 +17,10 @@ class VocabTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
+
         
         let alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         alphabetArray = alphabetString.map{String($0)}
-        
-        savedList = vocab.loadSavedList()
-        
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -64,21 +58,21 @@ class VocabTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         updateSelectedAlphabetArray(section)
-        //print(alphabetArray[section],vocabularyArray.count)
         return vocabularyArray.count
 
     }
 
     
-    fileprivate func changeStarButtonImage(_ index: Int, _ button: UIButton, addNew: Bool) {
-        if let savedList {
-            if savedList.contains(where: {$0 == vocabularyArray[index]}) == addNew {
-                button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            } else {
-                button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            }
+    fileprivate func changeStarButtonImage(_ index: Int, _ button: UIButton) {
+        
+        if savedList?.contains(where: {$0 == vocabularyArray[index]}) == true {
+            button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        } else {
+            button.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,14 +82,7 @@ class VocabTableViewController: UITableViewController {
         updateSelectedAlphabetArray(indexPath.section)
         
         cell.vocabLabel.text = vocabularyArray[indexPath.row].wordEng
-        changeStarButtonImage(indexPath.row, cell.starButton,addNew: false)
-        
-        cell.starButton.addAction(UIAction(handler: { _ in
-            print("button tapped",indexPath.section,indexPath.row)
-            self.saveToList(section: indexPath.section, row: indexPath.row)
-            self.changeStarButtonImage(indexPath.row, cell.starButton,addNew: true)
-            
-        }), for: .touchUpInside)
+        changeStarButtonImage(indexPath.row, cell.starButton)
 
         return cell
     }
@@ -110,25 +97,38 @@ class VocabTableViewController: UITableViewController {
         
         return controller
     }
-
-    func saveToList(section: Int, row: Int) {
-        updateSelectedAlphabetArray(section)
-        print("11111",vocabularyArray[row])
-        savedList = vocab.loadSavedList()
-        if var savedList {
-            if savedList.contains(where: {$0 == vocabularyArray[row]}) == false {
-                savedList.append(vocabularyArray[row])
-                print(savedList)
-            } else {
-                if let index = savedList.firstIndex(where: {$0 == vocabularyArray[row]}){
-                    savedList.remove(at: index)
-                }
-            }
+    
+    @IBAction func showSavedList(_ sender: Any) {
+        if let savedList {
             vocab.saveList(savedList)
         }
+        performSegue(withIdentifier: "showSavedListSegue", sender: nil)
+        
     }
     
-  
+    @IBAction func markedSave(_ sender: UIButton) {
+        savedList = vocab.loadSavedList()
+        let button = sender as? UIButton
+        if let point: CGPoint = button?.convert(.zero, to: tableView), let indexPath = tableView.indexPathForRow(at: point){
+            let section = indexPath.section
+            let row = indexPath.row
+            
+            updateSelectedAlphabetArray(section)
+            
+            if savedList?.contains(where: {$0 == vocabularyArray[row]}) == false {
+                savedList?.append(vocabularyArray[row])
+            } else {
+                if let index = savedList?.firstIndex(where: {$0 == vocabularyArray[row]}){
+                    savedList?.remove(at: index)
+                }
+            }
+            
+            changeStarButtonImage(row, button!)
+            vocab.saveList(savedList!)
+        }
+        
+        
+    }
     
     /*
     // Override to support conditional editing of the table view.

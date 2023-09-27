@@ -13,6 +13,8 @@ class VocabTableViewCell: UITableViewCell {
     
     @IBOutlet var starButton: UIButton!
     
+    var indexPath: IndexPath!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

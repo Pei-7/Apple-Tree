@@ -110,6 +110,9 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
+                                            <connections>
+                                                <action selector="markedSave:" destination="hVi-m6-2Aa" eventType="touchUpInside" id="it4-Bd-Rwb"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -128,10 +131,13 @@
                     <navigationItem key="navigationItem" id="3c2-Sc-1WY">
                         <barButtonItem key="rightBarButtonItem" image="book" catalog="system" id="Rho-Mb-Uk7">
                             <connections>
-                                <segue destination="vru-Qd-n7I" kind="show" id="VQT-TC-LhG"/>
+                                <action selector="showSavedList:" destination="hVi-m6-2Aa" id="Gr8-uU-A88"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="vru-Qd-n7I" kind="show" identifier="showSavedListSegue" id="MHr-kq-ev4"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pcw-9h-kUV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -290,7 +296,6 @@
                                 <connections>
                                     <outlet property="starButton" destination="fmc-gn-6Hk" id="T52-kM-ZKL"/>
                                     <outlet property="vocabLabel" destination="2yF-mf-k7A" id="HCE-Zu-8zc"/>
-                                    <segue destination="A00-U7-68G" kind="show" id="i14-RU-lDh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -299,16 +304,19 @@
                             <outlet property="delegate" destination="vru-Qd-n7I" id="YFL-6l-3cp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="5HV-Je-Uhh"/>
+                    <navigationItem key="navigationItem" id="5HV-Je-Uhh">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="trash" id="TfP-XD-ZeH">
+                            <connections>
+                                <action selector="removeAll:" destination="vru-Qd-n7I" id="pVD-0X-53J"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7sm-Fx-ApK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1914" y="149"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="i14-RU-lDh"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.left.fill" catalog="system" width="128" height="104"/>
         <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>
