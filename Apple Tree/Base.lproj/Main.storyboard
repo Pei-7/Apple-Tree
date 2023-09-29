@@ -725,7 +725,11 @@
                                     <action selector="pronounce:" destination="A00-U7-68G" id="1bL-jj-WyJ"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="bookmark" catalog="system" id="Wzf-a5-EDJ"/>
+                            <barButtonItem image="bookmark" catalog="system" id="Wzf-a5-EDJ">
+                                <connections>
+                                    <action selector="saveVocab:" destination="A00-U7-68G" id="UVB-kY-omE"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

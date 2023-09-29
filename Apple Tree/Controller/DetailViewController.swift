@@ -127,7 +127,27 @@ class DetailViewController: UIViewController {
             }
     }
     
-  
+    @IBAction func saveVocab(_ sender: UIBarButtonItem) {
+
+        let vocab = Vocabulary()
+        
+        var savedWords = vocab.loadSavedWords()
+        
+        if !savedWords.contains(wordEng) {
+            savedWords.append(wordEng)
+            vocab.saveWords(savedWords)
+            sender.image = UIImage(systemName: "bookmark.fill")
+            
+        } else {
+            if let index = savedWords.firstIndex (where:{ $0 == wordEng }) {
+                savedWords.remove(at: index)
+                vocab.saveWords(savedWords)
+            }
+            sender.image = UIImage(systemName: "bookmark")
+        }
+        
+    }
+    
   
     /*
     // MARK: - Navigation

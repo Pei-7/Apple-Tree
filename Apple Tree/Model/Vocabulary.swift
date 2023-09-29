@@ -79,7 +79,6 @@ struct Vocabulary: Codable,Equatable {
         let data = try? encoder.encode(vocab)
         let url = URL.documentsDirectory.appending(path: "savedVocab")
         try? data?.write(to: url)
-        
     }
     
     func loadSavedList() -> [Vocabulary]{
@@ -94,4 +93,24 @@ struct Vocabulary: Codable,Equatable {
         }
         return savedList ?? []
     }
+    
+    func saveWords(_ vocab: [String]) {
+        let encoder = JSONEncoder()
+        let data = try? encoder.encode(vocab)
+        let url = URL.documentsDirectory.appending(path: "savedWords")
+        try? data?.write(to: url)
+    }
+    
+    func loadSavedWords() -> [String]{
+        let url = URL.documentsDirectory.appendingPathComponent("savedWords")
+        var savedList: [String]?
+        if let data =  try? Data(contentsOf: url) {
+            print("66666",String(data: data, encoding: .utf8))
+            let decoder = JSONDecoder()
+            savedList = try? decoder.decode([String].self, from: data)
+            print("77777",savedList)
+        }
+        return savedList ?? []
+    }
+    
 }
