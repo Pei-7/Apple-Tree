@@ -37,6 +37,10 @@ class GameViewController: UIViewController {
     }
     var wrongBool = true
     
+    var bestRecord: Int?
+    
+    @IBOutlet var lastRecordLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,7 +62,7 @@ class GameViewController: UIViewController {
                     self.dropApple()
                     
                 }
-                print(self.answerArray)
+                //print(self.answerArray)
                 button.isEnabled = false
             }), for: .touchUpInside)
         }
@@ -76,7 +80,13 @@ class GameViewController: UIViewController {
         
         let definitionButton = UIButton()
         definitionButton.configuration = .filled()
-        definitionButton.setTitle("See Difinition", for: .normal)
+        definitionButton.setTitle("See Definition", for: .normal)
+        definitionButton.addAction(UIAction(handler: { _ in
+            guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "\(DetailViewController.self)") as? DetailViewController else {return}
+            controller.wordEng = self.questionWord
+            self.navigationController?.pushViewController(controller, animated: true)
+        }), for: .touchUpInside)
+        
         buttonStackView.addArrangedSubview(definitionButton)
         
         let playAgainButton = UIButton()
@@ -90,13 +100,15 @@ class GameViewController: UIViewController {
         buttonStackView.isHidden = true
         
         createApple()
+        loadBestRecord()
+        updateBestRecordLabel()
         
     }
     
     fileprivate func createNewQuestion() {
         questionWord = questionBank[Int.random(in: 0..<questionBank.count)]
         questionArray = questionWord.map({String($0)})
-        print(questionWord,questionArray)
+        //print(questionWord,questionArray)
     }
     
     func getQuestionBank() {
@@ -154,9 +166,9 @@ class GameViewController: UIViewController {
                 if char == character {
                     charIndexArray.append(i)
                     wrongBool = false
-                    print("0000")
+                    //print("0000")
                 } else {
-                    print("1111")
+                    //print("1111")
                 }
             }
         }
@@ -164,7 +176,7 @@ class GameViewController: UIViewController {
         if wrongBool == true {
             wrongCount += 1
         }
-        print("wrongBool",wrongBool,"wrongCount",wrongCount)
+        //print("wrongBool",wrongBool,"wrongCount",wrongCount)
         
         for index in charIndexArray {
             labelArray[index].text = answerArray.last
@@ -187,6 +199,19 @@ class GameViewController: UIViewController {
     
     }
     
+    fileprivate func updateBestRecordLabel() {
+        var recordString = ""
+        print("1111",bestRecord)
+        if bestRecord! > 0 {
+            for _ in 1...bestRecord! {
+                recordString += "🍎"
+            }
+        } else {
+            recordString += "🌳"
+        }
+        lastRecordLabel.text = recordString
+    }
+    
     func closeRound() {
         buttonStackView.isHidden = false
         
@@ -196,6 +221,22 @@ class GameViewController: UIViewController {
                 label.textColor = .red
             }
         }
+        
+        let remainingApple = 7 - wrongCount
+        print(remainingApple)
+        
+        if remainingApple > bestRecord! {
+            bestRecord = remainingApple
+            UserDefaults.standard.set(bestRecord, forKey: "bestRecord")
+
+            updateBestRecordLabel()
+        }
+            
+    
+        
+        
+        
+
     }
     
     func playAgain() {
@@ -262,14 +303,14 @@ class GameViewController: UIViewController {
         if wrongCount > 0 {
             oldYConstraint[wrongCount-1].isActive = false
             UIView.animate(withDuration: 0.6) {
-                let constant = CGFloat.random(in: -12...0)
+                let constant = CGFloat.random(in: -8...0)
                 let yConstraint = self.appleArray[self.wrongCount-1].bottomAnchor.constraint(equalTo: self.treeView.bottomAnchor, constant: constant)
                 yConstraint.isActive = true
                 self.newYConstraint.append(yConstraint)
                 self.view.layoutIfNeeded()
             }
             
-            Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { _ in
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                 self.appleArray[self.wrongCount-1].image = UIImage(named: "appleWithShadow")
             }
         }
@@ -277,6 +318,16 @@ class GameViewController: UIViewController {
        
     }
 
+    
+    func loadBestRecord() {
+        if let record = UserDefaults.standard.value(forKey: "bestRecord") as? Int {
+            bestRecord = record
+            print("2222",record,bestRecord)
+        } else {
+            bestRecord = 0
+            print("3333")
+        }
+    }
     /*
     // MARK: - Navigation
 

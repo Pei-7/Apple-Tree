@@ -47,8 +47,8 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="apple" translatesAutoresizingMaskIntoConstraints="NO" id="wMw-0T-f7Q">
                                         <rect key="frame" x="261.33333333333331" y="72.666666666666657" width="66.666666666666686" height="67"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Record:  6 🍎" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Xq-hh-Wd0">
-                                        <rect key="frame" x="227" y="-36.000000000000014" width="144" height="20.333333333333332"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Record: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Xq-hh-Wd0">
+                                        <rect key="frame" x="269" y="-36.000000000000014" width="102" height="20.333333333333332"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -101,6 +101,7 @@
                                         <exclude reference="98b-73-Tg2"/>
                                         <exclude reference="yoR-cS-rAv"/>
                                         <exclude reference="wMw-0T-f7Q"/>
+                                        <exclude reference="5Xq-hh-Wd0"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -445,17 +446,33 @@
                                     <constraint firstItem="42Y-Db-acc" firstAttribute="leading" secondItem="Hfp-LQ-Wuy" secondAttribute="leading" constant="10" id="v7O-BX-99H"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🌳" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uBM-h7-HAs">
+                                <rect key="frame" x="117.33333333333331" y="110.33333333333333" width="23" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best record: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3F8-0d-PH8">
+                                <rect key="frame" x="17.999999999999993" y="112.33333333333333" width="97.333333333333314" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="uBM-h7-HAs" firstAttribute="leading" secondItem="3F8-0d-PH8" secondAttribute="trailing" constant="2" id="0bD-r1-dfx"/>
                             <constraint firstItem="pBy-0Y-bqv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4SR-TP-rBx"/>
                             <constraint firstItem="pBy-0Y-bqv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EKd-cQ-tCP"/>
                             <constraint firstItem="Hfp-LQ-Wuy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="1.7" id="Fpi-Jj-Yoq"/>
+                            <constraint firstItem="3F8-0d-PH8" firstAttribute="leading" secondItem="V8Z-I7-6vN" secondAttribute="leading" id="Hu4-rB-McF"/>
                             <constraint firstItem="Hfp-LQ-Wuy" firstAttribute="top" secondItem="zmZ-1d-FvQ" secondAttribute="bottom" constant="8" id="KKe-fR-OO6"/>
                             <constraint firstItem="zmZ-1d-FvQ" firstAttribute="top" secondItem="pBy-0Y-bqv" secondAttribute="bottom" constant="8" id="OpY-cq-nvd"/>
                             <constraint firstItem="pBy-0Y-bqv" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="QrU-JO-Vlh"/>
+                            <constraint firstItem="uBM-h7-HAs" firstAttribute="top" secondItem="V8Z-I7-6vN" secondAttribute="top" constant="-34" id="UbA-Jp-ZGg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hfp-LQ-Wuy" secondAttribute="trailing" id="YUj-cX-qTS"/>
+                            <constraint firstItem="3F8-0d-PH8" firstAttribute="top" secondItem="V8Z-I7-6vN" secondAttribute="top" constant="-32" id="bak-Zu-4Jg"/>
                             <constraint firstItem="pBy-0Y-bqv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cfF-wH-Ssf"/>
                             <constraint firstItem="zmZ-1d-FvQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hgH-6t-b8D"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zmZ-1d-FvQ" secondAttribute="trailing" id="ilb-6e-Tsr"/>
@@ -465,6 +482,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="SiF-TY-l77"/>
                     <connections>
+                        <outlet property="lastRecordLabel" destination="uBM-h7-HAs" id="4Gg-MY-xgw"/>
                         <outlet property="treeView" destination="pBy-0Y-bqv" id="DEs-9m-9qC"/>
                         <outlet property="wordsView" destination="zmZ-1d-FvQ" id="ViF-lP-ZtB"/>
                         <outletCollection property="keyboardButtons" destination="xy0-AA-qFS" collectionClass="NSMutableArray" id="duH-No-TN5"/>
@@ -620,7 +638,7 @@
         <!--Item-->
         <scene sceneID="TeG-FK-XjN">
             <objects>
-                <viewController id="A00-U7-68G" customClass="DetailViewController" customModule="Apple_Tree" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="A00-U7-68G" customClass="DetailViewController" customModule="Apple_Tree" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Sc-N9-Fmq">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -701,11 +719,14 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="jrd-FN-QwZ"/>
                     <navigationItem key="navigationItem" id="b4q-LT-5R9">
-                        <barButtonItem key="rightBarButtonItem" image="speaker.wave.2.fill" catalog="system" style="plain" id="LFH-1B-5OU">
-                            <connections>
-                                <action selector="pronounce:" destination="A00-U7-68G" id="1bL-jj-WyJ"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="speaker.wave.2.fill" catalog="system" style="plain" id="LFH-1B-5OU">
+                                <connections>
+                                    <action selector="pronounce:" destination="A00-U7-68G" id="1bL-jj-WyJ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="bookmark" catalog="system" id="Wzf-a5-EDJ"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="sentenceChiLabel" destination="Nlm-yg-SZ5" id="wfb-sc-gYK"/>

@@ -15,11 +15,8 @@ class DetailViewController: UIViewController {
     var savedIndex: Int?
     
     @IBOutlet var wordEngLabel: UILabel!
-    
     @IBOutlet var wordChiLabel: UILabel!
-    
     @IBOutlet var sentenceEngLabel: UILabel!
-    
     @IBOutlet var sentenceChiLabel: UILabel!
     
     var alphabetArray: [String] = []
@@ -31,6 +28,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var switchPageButtons: [UIButton]!
     
+    var wordEng: String!
     
     fileprivate func updateVocab(array: [Vocabulary],index: Int) {
 
@@ -61,7 +59,6 @@ class DetailViewController: UIViewController {
         let vocab = Vocabulary()
         savedList = vocab.loadSavedList()
 
-        
         if let vocabIndex {
             updateAlphabet()
             updateVocab(array: vocabularyArray, index: vocabIndex)
@@ -73,6 +70,16 @@ class DetailViewController: UIViewController {
             for button in switchPageButtons {
                 button.isHidden = true
             }
+        } else {
+            let firstAlphabet = wordEng.prefix(1).uppercased()
+            if let alphabetIndex = alphabetArray.firstIndex(where: { $0 == firstAlphabet}) {
+                vocabularyArray = vocab.getData(alphabetArray: [alphabetArray[alphabetIndex]])
+                if let vocabIndex = vocabularyArray.firstIndex(where: { $0.wordEng == wordEng}) {
+                    updateVocab(array: vocabularyArray, index: vocabIndex)
+                }
+            }
+            
+            
         }
         
     }
@@ -118,9 +125,6 @@ class DetailViewController: UIViewController {
             default:
                 break
             }
-            
-        
-        
     }
     
   
