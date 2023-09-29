@@ -9,8 +9,14 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet var menuButtons: [UIButton]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for button in menuButtons {
+            button.configuration?.contentInsets = .init(top: 8, leading: 32, bottom: 8, trailing: 32)
+        }
 
         // Do any additional setup after loading the view.
     }

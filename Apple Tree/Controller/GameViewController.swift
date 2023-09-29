@@ -36,6 +36,7 @@ class GameViewController: UIViewController {
         }
     }
     var wrongBool = true
+    @IBOutlet var resultLabel: UILabel!
     
     var bestRecord: Int?
     
@@ -98,10 +99,12 @@ class GameViewController: UIViewController {
         buttonStackView.addArrangedSubview(playAgainButton)
         
         buttonStackView.isHidden = true
+        resultLabel.isHidden = true
         
         createApple()
         loadBestRecord()
         updateBestRecordLabel()
+        
         
     }
     
@@ -214,12 +217,17 @@ class GameViewController: UIViewController {
     
     func closeRound() {
         buttonStackView.isHidden = false
+        resultLabel.isHidden = false
+        treeView.bringSubviewToFront(resultLabel)
         
         if wrongCount == 7 {
             for (i,label) in labelArray.enumerated() {
                 label.text = questionArray[i]
                 label.textColor = .red
+                resultLabel.text = "All the apples are rotten!"
             }
+        } else {
+            resultLabel.text = "Both you and the tree\n are so fruitful!"
         }
         
         let remainingApple = 7 - wrongCount
@@ -249,6 +257,7 @@ class GameViewController: UIViewController {
             button.isEnabled = true
         }
         buttonStackView.isHidden = true
+        resultLabel.isHidden = true
         
         questionArray.removeAll()
         answerArray.removeAll()

@@ -73,26 +73,26 @@ struct Vocabulary: Codable,Equatable {
         return formattedString
     }
     
-    
-    func saveList(_ vocab: [Vocabulary]) {
-        let encoder = JSONEncoder()
-        let data = try? encoder.encode(vocab)
-        let url = URL.documentsDirectory.appending(path: "savedVocab")
-        try? data?.write(to: url)
-    }
-    
-    func loadSavedList() -> [Vocabulary]{
-        
-        let url = URL.documentsDirectory.appendingPathComponent("savedVocab")
-        var savedList: [Vocabulary]?
-        if let data =  try? Data(contentsOf: url) {
-//            print("22222",String(data: data, encoding: .utf8))
-            let decoder = JSONDecoder()
-            savedList = try? decoder.decode([Vocabulary].self, from: data)
-//            print("3333",savedList)
-        }
-        return savedList ?? []
-    }
+//    
+//    func saveList(_ vocab: [Vocabulary]) {
+//        let encoder = JSONEncoder()
+//        let data = try? encoder.encode(vocab)
+//        let url = URL.documentsDirectory.appending(path: "savedVocab")
+//        try? data?.write(to: url)
+//    }
+//    
+//    func loadSavedList() -> [Vocabulary]{
+//        
+//        let url = URL.documentsDirectory.appendingPathComponent("savedVocab")
+//        var savedList: [Vocabulary]?
+//        if let data =  try? Data(contentsOf: url) {
+////            print("22222",String(data: data, encoding: .utf8))
+//            let decoder = JSONDecoder()
+//            savedList = try? decoder.decode([Vocabulary].self, from: data)
+////            print("3333",savedList)
+//        }
+//        return savedList ?? []
+//    }
     
     func saveWords(_ vocab: [String]) {
         let encoder = JSONEncoder()

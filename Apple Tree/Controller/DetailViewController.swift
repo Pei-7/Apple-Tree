@@ -29,14 +29,26 @@ class DetailViewController: UIViewController {
     @IBOutlet var switchPageButtons: [UIButton]!
     
     var wordEng: String!
+    let vocab = Vocabulary()
+    var savedWords: [String]?
+    @IBOutlet var savedButton: UIBarButtonItem!
     
-    fileprivate func updateVocab(array: [Vocabulary],index: Int) {
+    fileprivate func updateVocab(index: Int) {
 
-        wordEngLabel.text = array[index].wordEng
-        wordChiLabel.text = array[index].wordChi
-        sentenceEngLabel.text = array[index].sentenceEng
-        sentenceChiLabel.text = array[index].sentenceChi
+        wordEngLabel.text = vocabularyArray[index].wordEng
+        wordChiLabel.text = vocabularyArray[index].wordChi
+        sentenceEngLabel.text = vocabularyArray[index].sentenceEng
+        sentenceChiLabel.text = vocabularyArray[index].sentenceChi
         
+        wordEng = vocabularyArray[index].wordEng
+        
+        if let savedWords {
+            if !savedWords.contains(wordEng) {
+                savedButton.image = UIImage(systemName: "bookmark")
+            } else {
+                savedButton.image = UIImage(systemName: "bookmark.fill")
+            }
+        }
     }
     
     fileprivate func updateAlphabet() {
@@ -56,30 +68,25 @@ class DetailViewController: UIViewController {
         let alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         alphabetArray = alphabetString.map{String($0)}
         
-        let vocab = Vocabulary()
-        savedList = vocab.loadSavedList()
+        savedWords = vocab.loadSavedWords()
 
         if let vocabIndex {
             updateAlphabet()
-            updateVocab(array: vocabularyArray, index: vocabIndex)
+            updateVocab(index: vocabIndex)
             for button in switchPageButtons {
                 button.isHidden = false
-            }
-        } else if let savedList, let savedIndex {
-            updateVocab(array: savedList, index: savedIndex)
-            for button in switchPageButtons {
-                button.isHidden = true
             }
         } else {
             let firstAlphabet = wordEng.prefix(1).uppercased()
             if let alphabetIndex = alphabetArray.firstIndex(where: { $0 == firstAlphabet}) {
                 vocabularyArray = vocab.getData(alphabetArray: [alphabetArray[alphabetIndex]])
                 if let vocabIndex = vocabularyArray.firstIndex(where: { $0.wordEng == wordEng}) {
-                    updateVocab(array: vocabularyArray, index: vocabIndex)
+                    updateVocab(index: vocabIndex)
                 }
             }
-            
-            
+            for button in switchPageButtons {
+                button.isHidden = true
+            }
         }
         
     }
@@ -102,24 +109,24 @@ class DetailViewController: UIViewController {
             case 0:
                 if vocabIndex != 0 {
                     vocabIndex! -= 1
-                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                    updateVocab(index: vocabIndex!)
                 } else {
                     alphabetIndex! -= 1
                     updateAlphabet()
                     vocabIndex = vocabularyArray.count-1
-                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                    updateVocab(index: vocabIndex!)
                 }
                 
             case 1:
                 if vocabIndex != vocabularyArray.count - 1 {
                     vocabIndex! += 1
-                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                    updateVocab(index: vocabIndex!)
                 } else {
                     alphabetIndex! += 1
                     updateAlphabet()
 
                     vocabIndex = 0
-                    updateVocab(array: vocabularyArray, index: vocabIndex!)
+                    updateVocab(index: vocabIndex!)
                 }
                 
             default:
@@ -129,23 +136,21 @@ class DetailViewController: UIViewController {
     
     @IBAction func saveVocab(_ sender: UIBarButtonItem) {
 
-        let vocab = Vocabulary()
-        
-        var savedWords = vocab.loadSavedWords()
-        
-        if !savedWords.contains(wordEng) {
-            savedWords.append(wordEng)
-            vocab.saveWords(savedWords)
-            sender.image = UIImage(systemName: "bookmark.fill")
-            
-        } else {
-            if let index = savedWords.firstIndex (where:{ $0 == wordEng }) {
-                savedWords.remove(at: index)
+
+        if var savedWords = savedWords {
+            if !savedWords.contains(wordEng) {
+                savedWords.append(wordEng)
                 vocab.saveWords(savedWords)
+                sender.image = UIImage(systemName: "bookmark.fill")
+                
+            } else {
+                if let index = savedWords.firstIndex (where:{ $0 == wordEng }) {
+                    savedWords.remove(at: index)
+                    vocab.saveWords(savedWords)
+                }
+                sender.image = UIImage(systemName: "bookmark")
             }
-            sender.image = UIImage(systemName: "bookmark")
         }
-        
     }
     
   
