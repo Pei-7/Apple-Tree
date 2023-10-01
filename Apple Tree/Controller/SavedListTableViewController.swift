@@ -10,30 +10,17 @@ import UIKit
 class SavedListTableViewController: UITableViewController {
     
     var vocab = Vocabulary()
-//    var savedList: [Vocabulary]?
     var savedWords: [String]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        savedList = vocab.loadSavedList()
-//        savedList = savedList?.sorted(by: { vocab1, vocab2 in
-//            if let word1 = vocab1.wordEng, let word2 = vocab2.wordEng {
-//                return word1.localizedStandardCompare(word2) == .orderedAscending
-//            }
-//            return false
-//        })
-//        if let savedList {
-//            vocab.saveList(savedList)
-//        }
-        
-        savedWords = vocab.loadSavedWords()
+
+        savedWords = Vocabulary.loadSavedWords()
         savedWords = savedWords?.sorted(by: { word1, word2 in
             return word1.localizedStandardCompare(word2) == .orderedAscending
         })
         if let savedWords {
-            vocab.saveWords(savedWords)
-            
+            Vocabulary.saveWords(savedWords)
         }
         
         
@@ -65,7 +52,6 @@ class SavedListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VocabTableViewCell", for: indexPath) as! VocabTableViewCell
-        //cell.starButton.removeFromSuperview()
         if let savedWords {
             cell.vocabLabel.text = savedWords[indexPath.row]
         }
@@ -76,16 +62,15 @@ class SavedListTableViewController: UITableViewController {
         
         savedWords?.remove(at: indexPath.row)
         if let savedWords {
-            vocab.saveWords(savedWords)
+            Vocabulary.saveWords(savedWords)
         }
-        print(savedWords)
         tableView.reloadData()
         
     }
     
     @IBAction func removeAll(_ sender: Any) {
         savedWords?.removeAll()
-        vocab.saveWords([])
+        Vocabulary.saveWords([])
         tableView.reloadData()
         
     }
@@ -93,14 +78,19 @@ class SavedListTableViewController: UITableViewController {
     @IBSegueAction func showSavedVocab(_ coder: NSCoder) -> DetailViewController? {
         let controller = DetailViewController(coder: coder)
         
-        let indexPath = tableView.indexPathForSelectedRow
-        //controller?.savedIndex = indexPath?.row
         if let savedWords, let indexPath = tableView.indexPathForSelectedRow {
             controller?.wordEng = savedWords[indexPath.row]
         }
         
         return controller
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        savedWords = Vocabulary.loadSavedWords()
+        tableView.reloadData()
+        
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -122,11 +122,11 @@
 			children = (
 				AF9488262AC2708A00863F66 /* AppDelegate.swift */,
 				AF9488282AC2708A00863F66 /* SceneDelegate.swift */,
+				AF9488312AC2708B00863F66 /* LaunchScreen.storyboard */,
 				AF9488842AC2CC2400863F66 /* Main.storyboard */,
 				AF94887F2AC2820500863F66 /* Model */,
 				AF9488422AC275F500863F66 /* Controller */,
 				AF94882F2AC2708B00863F66 /* Assets.xcassets */,
-				AF9488312AC2708B00863F66 /* LaunchScreen.storyboard */,
 				AF9488342AC2708B00863F66 /* Info.plist */,
 				AF9488512AC2798B00863F66 /* A.txt */,
 				AF9488532AC2798B00863F66 /* B.txt */,

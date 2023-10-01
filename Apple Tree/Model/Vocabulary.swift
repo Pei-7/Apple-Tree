@@ -15,7 +15,6 @@ struct Vocabulary: Codable,Equatable {
     
     func getData(alphabetArray: [String]) -> [Vocabulary] {
         var allVocabulary: [Vocabulary] = []
-//        let alphabetArray = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         
         for i in 0..<alphabetArray.count{
             if let url = Bundle.main.url(forResource: String(alphabetArray[i]), withExtension: "txt"){
@@ -48,7 +47,6 @@ struct Vocabulary: Codable,Equatable {
             }
         }
         //print(allVocabulary)
-        let index = allVocabulary.count-1
         
         return allVocabulary
     }
@@ -69,46 +67,26 @@ struct Vocabulary: Codable,Equatable {
             break
         }
 
-        
         return formattedString
     }
     
-//    
-//    func saveList(_ vocab: [Vocabulary]) {
-//        let encoder = JSONEncoder()
-//        let data = try? encoder.encode(vocab)
-//        let url = URL.documentsDirectory.appending(path: "savedVocab")
-//        try? data?.write(to: url)
-//    }
-//    
-//    func loadSavedList() -> [Vocabulary]{
-//        
-//        let url = URL.documentsDirectory.appendingPathComponent("savedVocab")
-//        var savedList: [Vocabulary]?
-//        if let data =  try? Data(contentsOf: url) {
-////            print("22222",String(data: data, encoding: .utf8))
-//            let decoder = JSONDecoder()
-//            savedList = try? decoder.decode([Vocabulary].self, from: data)
-////            print("3333",savedList)
-//        }
-//        return savedList ?? []
-//    }
-    
-    func saveWords(_ vocab: [String]) {
+    static func saveWords(_ vocab: [String]) {
         let encoder = JSONEncoder()
         let data = try? encoder.encode(vocab)
         let url = URL.documentsDirectory.appending(path: "savedWords")
         try? data?.write(to: url)
+        if let data{
+            print(String(data: data, encoding: .utf8))
+        }
     }
     
-    func loadSavedWords() -> [String]{
+    static func loadSavedWords() -> [String]{
         let url = URL.documentsDirectory.appendingPathComponent("savedWords")
         var savedList: [String]?
         if let data =  try? Data(contentsOf: url) {
-            print("66666",String(data: data, encoding: .utf8))
+            print(String(data: data, encoding: .utf8))
             let decoder = JSONDecoder()
             savedList = try? decoder.decode([String].self, from: data)
-            print("77777",savedList)
         }
         return savedList ?? []
     }

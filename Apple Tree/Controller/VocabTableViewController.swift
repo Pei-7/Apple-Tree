@@ -8,7 +8,7 @@
 import UIKit
 
 class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
-    
+    var filteredList: [Vocabulary]?
     var filteredAlphabetIndex: Int?
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -23,6 +23,8 @@ class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
                 filteredAlphabetIndex = alphabetArray.firstIndex(where: { $0 == alphabet})
                 
                 alphabetArray = [alphabet]
+                
+                let vocab = Vocabulary()
                 vocabularyArray = vocab.getData(alphabetArray: [alphabet])
                 
                 filteredList = vocabularyArray.filter({ vocab in
@@ -46,28 +48,19 @@ class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
     var alphabetArray = [String()]
     var vocabularyArray = [Vocabulary()]
     
-    var savedList : [Vocabulary]?
     
-    var filteredList: [Vocabulary]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        
         alphabetArray = alphabetString.map{String($0)}
         
-
         let searchController = UISearchController()
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
     }
 
 
@@ -118,24 +111,7 @@ class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
     }
 
     
-//    fileprivate func changeStarButtonImage(_ index: Int, _ button: UIButton) {
-//        if filteredList?.isEmpty == false {
-//
-//            if savedList?.contains(where: {$0 == filteredList?[index]}) == true {
-//                button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-//            } else {
-//                button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-//            }
-//
-//        } else {
-//            if savedList?.contains(where: {$0 == vocabularyArray[index]}) == true {
-//                button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-//            } else {
-//                button.setImage(UIImage(systemName: "bookmark"), for: .normal)
-//            }
-//        }
-//
-//    }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VocabTableViewCell", for: indexPath) as! VocabTableViewCell
@@ -144,11 +120,9 @@ class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
         
         if let filteredList, filteredList.isEmpty == false {
             cell.vocabLabel.text = filteredList[indexPath.row].wordEng
-//            changeStarButtonImage(indexPath.row, cell.starButton)
         } else {
             updateSelectedAlphabetArray(indexPath.section)
             cell.vocabLabel.text = vocabularyArray[indexPath.row].wordEng
-//            changeStarButtonImage(indexPath.row, cell.starButton)
         }
 
         return cell
@@ -178,43 +152,7 @@ class VocabTableViewController: UITableViewController, UISearchResultsUpdating {
         performSegue(withIdentifier: "showSavedListSegue", sender: nil)
     }
     
-//    @IBAction func markedSave(_ sender: UIButton) {
-//        savedList = vocab.loadSavedList()
-//        let button = sender as? UIButton
-//        if let point: CGPoint = button?.convert(.zero, to: tableView), let indexPath = tableView.indexPathForRow(at: point){
-//            let section = indexPath.section
-//            let row = indexPath.row
-//
-//            print("99999",row,filteredList?[row].wordEng,savedList?.contains(where: {$0 == filteredList?[row]}))
-//
-//            if filteredList?.isEmpty == false {
-//                if savedList?.contains(where: {$0 == filteredList?[row]}) == false {
-//                    if let filteredList {
-//                        savedList?.append((filteredList[row]))
-//                    }
-//                } else {
-//                    if let index = savedList?.firstIndex(where: {$0 == filteredList?[row]}){
-//                        savedList?.remove(at: index)
-//                    }
-//                }
-//
-//            } else {
-//                updateSelectedAlphabetArray(section)
-//                if savedList?.contains(where: {$0 == vocabularyArray[row]}) == false {
-//                    savedList?.append(vocabularyArray[row])
-//                } else {
-//                    if let index = savedList?.firstIndex(where: {$0 == vocabularyArray[row]}){
-//                        savedList?.remove(at: index)
-//                    }
-//                }
-//            }
-//
-//            changeStarButtonImage(row, button!)
-//            vocab.saveList(savedList!)
-//        }
-//
-//
-//    }
+    
     
     /*
     // Override to support conditional editing of the table view.

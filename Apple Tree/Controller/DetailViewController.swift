@@ -12,7 +12,6 @@ class DetailViewController: UIViewController {
     
     var alphabetIndex: Int?
     var vocabIndex: Int?
-    var savedIndex: Int?
     
     @IBOutlet var wordEngLabel: UILabel!
     @IBOutlet var wordChiLabel: UILabel!
@@ -22,7 +21,6 @@ class DetailViewController: UIViewController {
     var alphabetArray: [String] = []
     var selectedAlphabet: [String] = []
     var vocabularyArray: [Vocabulary] = []
-    var savedList: [Vocabulary]?
 
     var speaker = AVSpeechSynthesizer()
     
@@ -41,7 +39,7 @@ class DetailViewController: UIViewController {
         sentenceChiLabel.text = vocabularyArray[index].sentenceChi
         
         wordEng = vocabularyArray[index].wordEng
-        
+        savedWords = Vocabulary.loadSavedWords()
         if let savedWords {
             if !savedWords.contains(wordEng) {
                 savedButton.image = UIImage(systemName: "bookmark")
@@ -56,7 +54,6 @@ class DetailViewController: UIViewController {
         if let alphabetIndex {
             selectedAlphabet = [alphabetArray[alphabetIndex]]
         }
-        let vocab = Vocabulary()
         vocabularyArray = vocab.getData(alphabetArray: selectedAlphabet)
     }
     
@@ -67,8 +64,6 @@ class DetailViewController: UIViewController {
         
         let alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         alphabetArray = alphabetString.map{String($0)}
-        
-        savedWords = vocab.loadSavedWords()
 
         if let vocabIndex {
             updateAlphabet()
@@ -136,17 +131,20 @@ class DetailViewController: UIViewController {
     
     @IBAction func saveVocab(_ sender: UIBarButtonItem) {
 
-
+        savedWords = Vocabulary.loadSavedWords()
+        
         if var savedWords = savedWords {
             if !savedWords.contains(wordEng) {
+                print("not contain")
                 savedWords.append(wordEng)
-                vocab.saveWords(savedWords)
+                Vocabulary.saveWords(savedWords)
                 sender.image = UIImage(systemName: "bookmark.fill")
                 
             } else {
+                print("contain")
                 if let index = savedWords.firstIndex (where:{ $0 == wordEng }) {
                     savedWords.remove(at: index)
-                    vocab.saveWords(savedWords)
+                    Vocabulary.saveWords(savedWords)
                 }
                 sender.image = UIImage(systemName: "bookmark")
             }

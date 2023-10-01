@@ -12,8 +12,6 @@ class GameViewController: UIViewController {
 
     @IBOutlet var keyboardButtons: [UIButton]!
     
-    
-    let keyboardString = "QWERTYUIOPASDFGHJKLZXCVBNM"
     var questionBank : [String] = []
     var questionWord = String()
     var questionArray : [String] = []
@@ -42,13 +40,8 @@ class GameViewController: UIViewController {
     
     @IBOutlet var lastRecordLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        getQuestionBank()
-        createAnswerBlank()
-        
+    fileprivate func setUpKeyboard() {
+        let keyboardString = "QWERTYUIOPASDFGHJKLZXCVBNM"
         let keyboardArray = keyboardString.map { String($0) }
         for (i,button) in keyboardButtons.enumerated() {
             button.setTitle(keyboardArray[i], for: .normal)
@@ -60,14 +53,13 @@ class GameViewController: UIViewController {
                 if let char = button.titleLabel?.text?.lowercased() {
                     self.answerArray.append(char)
                     self.checkAnswerChar()
-                    self.dropApple()
-                    
                 }
-                //print(self.answerArray)
                 button.isEnabled = false
             }), for: .touchUpInside)
         }
-        
+    }
+    
+    fileprivate func setUpButtons() {
         wordsView.addSubview(buttonStackView)
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -100,6 +92,19 @@ class GameViewController: UIViewController {
         
         buttonStackView.isHidden = true
         resultLabel.isHidden = true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        getQuestionBank()
+        createNewQuestion()
+        
+        createAnswerBlank()
+        setUpKeyboard()
+        
+        setUpButtons()
         
         createApple()
         loadBestRecord()
@@ -111,14 +116,15 @@ class GameViewController: UIViewController {
     fileprivate func createNewQuestion() {
         questionWord = questionBank[Int.random(in: 0..<questionBank.count)]
         questionArray = questionWord.map({String($0)})
-        //print(questionWord,questionArray)
+        print(questionWord,questionArray)
     }
     
     func getQuestionBank() {
-        var vocab = Vocabulary()
+        
         let alphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         let alphabetArray = alphabetString.map({String($0)})
         
+        let vocab = Vocabulary()
         let vocabArray = vocab.getData(alphabetArray: alphabetArray)
         
         for i in 0..<vocabArray.count {
@@ -131,7 +137,7 @@ class GameViewController: UIViewController {
             !string.contains(" ") && !string.contains("-")
         }
         
-        createNewQuestion()
+        
         
     }
     
@@ -195,16 +201,12 @@ class GameViewController: UIViewController {
         
         if matchCount == questionArray.count || wrongCount == 7 {
             closeRound()
-            for button in keyboardButtons {
-                button.isEnabled = false
-            }
         }
     
     }
     
     fileprivate func updateBestRecordLabel() {
         var recordString = ""
-        print("1111",bestRecord)
         if bestRecord! > 0 {
             for _ in 1...bestRecord! {
                 recordString += "🍎"
@@ -216,6 +218,9 @@ class GameViewController: UIViewController {
     }
     
     func closeRound() {
+        for button in keyboardButtons {
+            button.isEnabled = false
+        }
         buttonStackView.isHidden = false
         resultLabel.isHidden = false
         treeView.bringSubviewToFront(resultLabel)
@@ -239,12 +244,6 @@ class GameViewController: UIViewController {
 
             updateBestRecordLabel()
         }
-            
-    
-        
-        
-        
-
     }
     
     func playAgain() {
@@ -331,10 +330,8 @@ class GameViewController: UIViewController {
     func loadBestRecord() {
         if let record = UserDefaults.standard.value(forKey: "bestRecord") as? Int {
             bestRecord = record
-            print("2222",record,bestRecord)
         } else {
             bestRecord = 0
-            print("3333")
         }
     }
     /*
